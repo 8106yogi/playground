@@ -86,25 +86,43 @@ class MyLinkedList<T> {
         return currentNode
     }
 
+    private fun reverse() {
+        var prevNode: Node<T>? = null
+        var currentNode = head
+
+        while (currentNode != null) {
+            var nextNode = currentNode?.next
+            currentNode.next = prevNode
+            prevNode = currentNode
+            currentNode = nextNode
+        }
+        head = prevNode
+    }
+
+
+
 
     companion object {
         @JvmStatic
         fun main(str: Array<String>) {
             val list = MyLinkedList<Int>()
 
-            list.addFirst(1)
-            list.addFirst(2)
-            list.addFirst(3)
+            list.addLast(1)
+            list.addLast(2)
+            list.add(3)
+
             list.addLast(4)
             list.printList()
-            list.deleteFirst()
+            list.reverse()
             list.printList()
-            list.deleteLast()
-            list.printList()
-
-            list.get(-1)?.let { println(it.data) }
-            list.get(1)?.let { println(it.data) }
-            list.get(2)?.let { println(it.data) }
+//            list.deleteFirst()
+//            list.printList()
+//            list.deleteLast()
+//            list.printList()
+//
+//            list.get(-1)?.let { println(it.data) }
+//            list.get(1)?.let { println(it.data) }
+//            list.get(2)?.let { println(it.data) }
         }
 
     }

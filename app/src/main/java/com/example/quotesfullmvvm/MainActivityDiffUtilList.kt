@@ -9,16 +9,20 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.quotesfullmvvm.application.QuotesFullMVVMApplication
 import com.example.quotesfullmvvm.databinding.ActivityMainBinding
 import com.example.quotesfullmvvm.databinding.RawQuoteItemBinding
-import com.example.quotesfullmvvm.factory.MainViewModelFactory
+import com.example.quotesfullmvvm.factory.ViewModelFactory
 import com.example.quotesfullmvvm.model.Result
 import com.example.quotesfullmvvm.recycler.GenericRecyclerViewListAdapter
 import com.example.quotesfullmvvm.viewmodel.MainViewModel
+import javax.inject.Inject
 
 class MainActivityDiffUtilList : AppCompatActivity() {
 
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var list: MutableList<Result>
+
+    @Inject
+    lateinit var factory: ViewModelFactory
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,9 +43,14 @@ class MainActivityDiffUtilList : AppCompatActivity() {
 
     private fun initialization() {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val repository = (applicationContext as QuotesFullMVVMApplication).repository
+
+        (application as QuotesFullMVVMApplication).applicationComponent.inject(this)
+
+
         mainViewModel =
-            ViewModelProvider(this, MainViewModelFactory(repository))[MainViewModel::class.java]
+            ViewModelProvider(this, factory)[MainViewModel::class.java]
+
+
         activityMainBinding.mainviewmodel = mainViewModel
         activityMainBinding.lifecycleOwner = this
         activityMainBinding.recyclerView.setHasFixedSize(true)

@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".application.QuotesFullMVVMApplication"
         android:allowBackup="true"
@@ -16,7 +17,7 @@
         android:theme="@style/Theme.QuotesFullMVVM"
         tools:targetApi="n">
         <activity
-            android:name=".MainActivity"
+            android:name=".MainActivityDiffUtilList"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

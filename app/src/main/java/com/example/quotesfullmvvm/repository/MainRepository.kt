@@ -9,10 +9,12 @@ import com.example.quotesfullmvvm.model.BaseResponse.*
 import com.example.quotesfullmvvm.model.QuotesResponse
 import com.example.quotesfullmvvm.network.RetrofitService
 import com.example.quotesfullmvvm.utils.NetworkUtils
+import javax.inject.Inject
 
-class MainRepository(
+class MainRepository @Inject constructor(
     private val retrofitService: RetrofitService,
-    private val quotesDAO: QuotesDAO, private val context: Context
+    private val quotesDAO: QuotesDAO,
+    private val context: Context
 ) {
 
     private val _quotesResponse: MutableLiveData<BaseResponse<QuotesResponse>> =
@@ -27,7 +29,7 @@ class MainRepository(
 
             if (NetworkUtils.isNetworkConnected(context)) {
                 val result = retrofitService.getQuotes(page)
-                if (result.body() != null) {
+                if (result.isSuccessful && result.body() != null) {
                     _quotesResponse.postValue(SUCCESS(result.body()))
                     quotesDAO.insertQuotes(result.body()!!.results)
                 } else {
