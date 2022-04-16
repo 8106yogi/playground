@@ -8,22 +8,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.example.quotesfullmvvm.application.QuotesFullMVVMApplication
 import com.example.quotesfullmvvm.databinding.ActivityMainBinding
-import com.example.quotesfullmvvm.factory.ViewModelFactory
 import com.example.quotesfullmvvm.model.BaseResponse.*
 import com.example.quotesfullmvvm.model.Result
 import com.example.quotesfullmvvm.recycler.MyRecyclerViewAdapter
 import com.example.quotesfullmvvm.viewmodel.MainViewModel
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var list: MutableList<Result>
 
@@ -54,10 +51,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun initialization() {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        (application as QuotesFullMVVMApplication).applicationComponent.inject(this)
 
         mainViewModel =
-            ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+            ViewModelProvider(this)[MainViewModel::class.java]
         activityMainBinding.mainviewmodel = mainViewModel
         activityMainBinding.lifecycleOwner = this
 

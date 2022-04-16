@@ -9,12 +9,13 @@ import com.example.quotesfullmvvm.model.BaseResponse.*
 import com.example.quotesfullmvvm.model.QuotesResponse
 import com.example.quotesfullmvvm.network.RetrofitService
 import com.example.quotesfullmvvm.utils.NetworkUtils
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
     private val retrofitService: RetrofitService,
     private val quotesDAO: QuotesDAO,
-    private val context: Context
+  @ApplicationContext  private val context: Context
 ) {
 
     private val _quotesResponse: MutableLiveData<BaseResponse<QuotesResponse>> =

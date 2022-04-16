@@ -9,20 +9,18 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.quotesfullmvvm.application.QuotesFullMVVMApplication
 import com.example.quotesfullmvvm.databinding.ActivityMainBinding
 import com.example.quotesfullmvvm.databinding.RawQuoteItemBinding
-import com.example.quotesfullmvvm.factory.ViewModelFactory
 import com.example.quotesfullmvvm.model.Result
 import com.example.quotesfullmvvm.recycler.GenericRecyclerViewListAdapter
 import com.example.quotesfullmvvm.viewmodel.MainViewModel
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivityDiffUtilList : AppCompatActivity() {
 
     private lateinit var activityMainBinding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var list: MutableList<Result>
 
-    @Inject
-    lateinit var factory: ViewModelFactory
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +28,10 @@ class MainActivityDiffUtilList : AppCompatActivity() {
         initialization()
 
         mainViewModel.quotesResponse.observe(this) {
+
             it.data?.let { it1 -> list.addAll(it1.results) }
+           if(list.size==0)return@observe
+
             (activityMainBinding.recyclerView.adapter as GenericRecyclerViewListAdapter<Result, ViewDataBinding>).submitList(
                 list
             )
@@ -44,11 +45,10 @@ class MainActivityDiffUtilList : AppCompatActivity() {
     private fun initialization() {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        (application as QuotesFullMVVMApplication).applicationComponent.inject(this)
 
 
         mainViewModel =
-            ViewModelProvider(this, factory)[MainViewModel::class.java]
+            ViewModelProvider(this)[MainViewModel::class.java]
 
 
         activityMainBinding.mainviewmodel = mainViewModel
