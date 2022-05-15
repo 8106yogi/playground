@@ -19,7 +19,6 @@ class MainViewModel @Inject constructor (private val repository: MainRepository)
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-        Log.e(javaClass.canonicalName,"MainViewModel")
             repository.getQuotes(1)
         }
     }

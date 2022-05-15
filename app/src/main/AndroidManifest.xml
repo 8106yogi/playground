@@ -17,7 +17,7 @@
         android:theme="@style/Theme.QuotesFullMVVM"
         tools:targetApi="n">
         <activity
-            android:name=".MainActivityDiffUtilList"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

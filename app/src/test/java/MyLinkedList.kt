@@ -99,6 +99,19 @@ class MyLinkedList<T> {
         head = prevNode
     }
 
+fun reverse1(){
+var prev: Node<T>? =null
+var current:Node<T> ?= head
+
+while(current !=null){
+    var temp=current.next
+    current.next=prev
+    prev=current
+    current=temp
+}
+    head=prev
+
+}
 
 
 
